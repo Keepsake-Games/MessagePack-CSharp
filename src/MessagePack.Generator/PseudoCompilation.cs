@@ -17,7 +17,7 @@ namespace MessagePack.Generator
 {
     internal static class PseudoCompilation
     {
-        internal static async Task<CSharpCompilation> CreateFromDirectoryAsync(string directoryRoot, IEnumerable<string>? preprocessorSymbols, CancellationToken cancellationToken)
+        internal static async Task<CSharpCompilation> CreateFromDirectoryAsync(string directoryRoot, IEnumerable<string>? preprocessorSymbols, IEnumerable<string>? additionalAssemblies, CancellationToken cancellationToken)
         {
             var parseOption = new CSharpParseOptions(LanguageVersion.Latest, DocumentationMode.Parse, SourceCodeKind.Regular, CleanPreprocessorSymbols(preprocessorSymbols));
 
@@ -43,7 +43,7 @@ namespace MessagePack.Generator
                 syntaxTrees.Add(CSharpSyntaxTree.ParseText(DummyAnnotation, parseOption));
             }
 
-            var metadata = GetStandardReferences().Select(x => MetadataReference.CreateFromFile(x)).ToArray();
+            var metadata = GetStandardReferences().Concat(additionalAssemblies?.Where(f => File.Exists(f)) ?? Enumerable.Empty<string>()).Select(x => MetadataReference.CreateFromFile(x)).ToArray();
 
             var compilation = CSharpCompilation.Create(
                 "CodeGenTemp",

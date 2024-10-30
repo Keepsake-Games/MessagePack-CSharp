@@ -47,7 +47,8 @@ namespace MessagePack.Generator
             [Option("n", "Set namespace root name.")] string @namespace = "MessagePack",
             [Option("m", "Force use map mode serialization.")] bool useMapMode = false,
             [Option("ms", "Generate #if-- files by symbols, split with ','.")] string? multipleIfDirectiveOutputSymbols = null,
-            [Option("ei", "Ignore type names.")] string[]? externalIgnoreTypeNames = null)
+            [Option("ei", "Ignore type names.")] string[]? externalIgnoreTypeNames = null,
+            [Option("a", "Additional assembly references used to resolve types, absolute paths split with ','. Ignored if a project file is specified for input.")] string? additionalAssemblies = null) // KEEPSAKE FIX
         {
             Workspace? workspace = null;
             try
@@ -56,7 +57,8 @@ namespace MessagePack.Generator
                 if (Directory.Exists(input))
                 {
                     string[]? conditionalSymbols = conditionalSymbol?.Split(',');
-                    compilation = await PseudoCompilation.CreateFromDirectoryAsync(input, conditionalSymbols, this.Context.CancellationToken);
+                    string[]? additionalAssembliesArray = additionalAssemblies?.Split(","); // KEEPSAKE FIX
+                    compilation = await PseudoCompilation.CreateFromDirectoryAsync(input, conditionalSymbols, additionalAssembliesArray, this.Context.CancellationToken);
                 }
                 else
                 {
