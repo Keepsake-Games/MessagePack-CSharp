@@ -627,6 +627,12 @@ namespace MessagePackCompiler.CodeAnalysis
                         continue;
                     }
 
+                    // require base classes to also have [MessagePackObject] attribute to be considered
+                    if (item.ContainingType.GetAttributes().Any(x => x.AttributeClass.ApproximatelyEqual(this.typeReferences.MessagePackObjectAttribute)) == false)
+                    {
+                        continue;
+                    }
+
                     var isReadable = item.GetMethod != null && item.GetMethod.DeclaredAccessibility == Accessibility.Public && !item.IsStatic;
                     var isWritable = item.SetMethod != null && item.SetMethod.DeclaredAccessibility == Accessibility.Public && !item.IsStatic;
                     if (!isReadable && !isWritable)
@@ -656,6 +662,12 @@ namespace MessagePackCompiler.CodeAnalysis
                     }
 
                     if (item.IsImplicitlyDeclared)
+                    {
+                        continue;
+                    }
+
+                    // require base classes to also have [MessagePackObject] attribute to be considered
+                    if (item.ContainingType.GetAttributes().Any(x => x.AttributeClass.ApproximatelyEqual(this.typeReferences.MessagePackObjectAttribute)) == false)
                     {
                         continue;
                     }
@@ -691,6 +703,12 @@ namespace MessagePackCompiler.CodeAnalysis
                     if (item.IsIndexer)
                     {
                         continue; // .tt files don't generate good code for this yet: https://github.com/neuecc/MessagePack-CSharp/issues/390
+                    }
+
+                    // require base classes to also have [MessagePackObject] attribute to be considered
+                    if (item.ContainingType.GetAttributes().Any(x => x.AttributeClass.ApproximatelyEqual(this.typeReferences.MessagePackObjectAttribute)) == false)
+                    {
+                        continue;
                     }
 
                     if (item.GetAttributes().Any(x =>
@@ -770,6 +788,12 @@ namespace MessagePackCompiler.CodeAnalysis
                     }
 
                     if (item.GetAttributes().Any(x => x.AttributeClass.ApproximatelyEqual(this.typeReferences.IgnoreAttribute)))
+                    {
+                        continue;
+                    }
+
+                    // require base classes to also have [MessagePackObject] attribute to be considered
+                    if (item.ContainingType.GetAttributes().Any(x => x.AttributeClass.ApproximatelyEqual(this.typeReferences.MessagePackObjectAttribute)) == false)
                     {
                         continue;
                     }
