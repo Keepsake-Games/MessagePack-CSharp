@@ -9,10 +9,13 @@
     <RollForward>Major</RollForward>
 
     <!-- NuGet Info -->
-    <PackageId>MessagePack.Generator</PackageId>
+    <PackageId>KeepsakeGames.MessagePack.Generator</PackageId>
     <Title>MessagePack Code Generator</Title>
     <Description>MessagePack standalone code generator.</Description>
     <PackageTags>MsgPack;MessagePack;Serialization;Formatter;Serializer;Unity;Xamarin</PackageTags>
+    <Authors>tmollstam_keepsake</Authors>
+    <Company>Keepsake Games AB</Company>
+    <PackageProjectUrl>https://github.com/Keepsake-Games/MessagePack-CSharp</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
